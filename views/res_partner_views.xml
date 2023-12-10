@@ -1,0 +1,46 @@
+<odoo>
+    <data>
+        <record id="view_partner_form_inherited" model="ir.ui.view">
+            <field name="name">res.partner.form.inherited</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Vista solo si es Individual -->
+                <xpath expr="//field[@name='function']" position="after">
+                    <field name="ci" attrs="{'invisible': [('is_company','=', True)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="before">
+                    <field name="a_personal" attrs="{'invisible': [('parent_id', '=', False)]}" widget="boolean_toggle"/>
+                </xpath>
+
+
+                <!-- Vista solo si es Company -->
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="reeup" attrs="{'invisible': [('is_company','!=', True)]}"/>
+                    <field name="ircc" attrs="{'invisible': [('is_company','!=', True)]}"/>
+                </xpath>
+
+                <!-- Vista para ambos -->
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="clave"/>
+                    <field name="abreviatura"/>
+                </xpath>
+
+                 <!-- Agregado a la vista de contacto asociado -->
+                <xpath expr="//page[@name='contact_addresses']//field//form//sheet//group//field[@name='mobile']" position="after">
+                    <field name="ci" attrs="{'invisible': [('type','!=','contact')]}"/>
+                </xpath>
+                <xpath expr="//page[@name='contact_addresses']//field//form//sheet//group//field[@name='function']" position="after">
+                    <field name="a_personal" attrs="{'invisible': [('type','!=','contact')]}" widget="boolean_toggle"/>
+                </xpath>
+
+                <!-- Mostrando en el kanban si es personal autorizado-->
+                <xpath expr="//page[@name='contact_addresses']//field[@name='child_ids']//kanban//templates//field[@name='name']" position="after">
+                    <field name="a_personal" attrs="{'invisible': [('a_personal','=',False)]}" readonly='True'/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

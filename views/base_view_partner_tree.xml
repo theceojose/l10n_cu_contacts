@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+        <record id="base_view_partner_tree_inherit" model="ir.ui.view">
+            <field name="name">base.view.partner.tree.inherit</field>
+            <field name="model">res.partner</field>
+            <field eval="8" name="priority"/>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//tree//field[@name='display_name']" position="before">
+                    <field name="clave" />
+                </xpath>
+
+                <xpath expr="//tree//field[@name='display_name']" position="after">
+                    <field name="abreviatura" />
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>
